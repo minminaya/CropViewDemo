@@ -67,9 +67,13 @@ Bitmap.createBitmap(originalBitmap,//原图
 - 3、对图片进行翻转处理
 - 4、拿到裁剪后的图
 
-##### 七、需要注意的细节
+##### 七、开放属性Style
 
-- 1、关于V
+##### 八、使用
+
+------
+
+
 # 额外需要首先考虑的
 
 首先思考我们的控件大概需要什么动态的属性，为了以后方便扩展业务或者功能的精确控制
@@ -1491,6 +1495,13 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
+![](https://upload-images.jianshu.io/upload_images/3515789-0aa70fedd860fe33.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+---
+
 ##### 源代码
 
 地址：https://github.com/minminaya/CropViewDemo
+
+----
+
