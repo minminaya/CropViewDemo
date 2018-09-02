@@ -1,0 +1,50 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <declare-styleable name="CropView">
+        <attr name="img_src" format="reference" />
+        <attr name="crop_mode">
+            <enum name="fit_image" value="0" />
+            <enum name="ratio_2_3" value="1" />
+            <enum name="ratio_3_2" value="2" />
+            <enum name="ratio_4_3" value="3" />
+            <enum name="ratio_3_4" value="4" />
+            <enum name="square" value="5" />
+            <enum name="ratio_16_9" value="6" />
+            <enum name="ratio_9_16" value="7" />
+            <enum name="free" value="8" />
+
+        </attr>
+        <attr name="background_color" format="reference|color" />
+        <attr name="overlay_color" format="reference|color" />
+        <attr name="frame_color" format="reference|color" />
+        <attr name="handle_color" format="reference|color" />
+        <attr name="handle_width" format="dimension" />
+        <attr name="handle_size" format="dimension" />
+        <attr name="guide_color" format="reference|color" />
+        <attr name="guide_show_mode">
+            <enum name="show_always" value="1" />
+            <enum name="show_on_touch" value="2" />
+            <enum name="not_show" value="3" />
+        </attr>
+        <attr name="handle_show_mode">
+            <enum name="show_always" value="1" />
+            <enum name="show_on_touch" value="2" />
+            <enum name="not_show" value="3" />
+        </attr>
+        <attr name="touch_padding" format="dimension" />
+        <attr name="min_frame_size" format="dimension" />
+        <attr name="frame_stroke_weight" format="dimension" />
+        <attr name="guide_stroke_weight" format="dimension" />
+        <attr name="crop_enabled" format="boolean" />
+        <attr name="initial_frame_scale" format="float" />
+    </declare-styleable>
+
+</resources>

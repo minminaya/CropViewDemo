@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.minminaya.crop.CropView
+        android:id="@+id/crop_img"
+        android:layout_width="match_parent"
+        android:layout_height="583dp"
+        android:layout_above="@+id/rv"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        app:crop_enabled="true"
+        app:crop_mode="free"
+        app:background_color="#66FFFFFF"
+        app:frame_color="@android:color/white"
+        app:frame_stroke_weight="2dp"
+        app:guide_color="#66FFFFFF"
+        app:guide_show_mode="show_always"
+        app:guide_stroke_weight="2dp"
+        app:handle_color="@android:color/white"
+        app:handle_show_mode="show_always"
+        app:handle_size="24dp"
+        app:handle_width="3dp"
+        app:initial_frame_scale="1"
+        app:min_frame_size="100dp"
+        app:overlay_color="#AA1C1C1C"
+        app:touch_padding="8dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white" />
+
+</RelativeLayout>
