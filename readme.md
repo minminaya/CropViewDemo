@@ -2,6 +2,10 @@
 
 本篇我会带你去从零设计一款裁剪旋转的View
 
+# 2022 年有感
+
+本篇是 2018 年写的，现在重新 review 了下，思路是好的，就是代码写的不够优雅，太不优雅了，各种重复代码，各位读者朋友们，不要照抄代码噢，重复代码应该封装，有些可以放到枚举里简化取值操作，并且绘制逻辑里不要重复 new 对象，会影响性能喔，共勉！！！
+
 ---
 
 # 你需要准备的
@@ -72,8 +76,6 @@ Bitmap.createBitmap(originalBitmap,//原图
 ##### 八、使用
 
 ------
-
-
 # 额外需要首先考虑的
 
 首先思考我们的控件大概需要什么动态的属性，为了以后方便扩展业务或者功能的精确控制
@@ -198,7 +200,7 @@ private float calcScale(int viewWidth, int viewHeight, float angle) {
         }
         return scale;
     }
-
+    
 ```
 首先拿到Drawable的固有宽宽高，接着对图片的宽高mImgWidth、mImgHeight进行边界控制，然后计算出图片的长宽比例，要是有旋转的情况那么viewRatio的值要拿到旋转后的宽高来判断，这里关键就是怎么样拿到旋转后的宽高，```getRotatedWidth```方法如下，传入旋转的角度，如果是旋转了180度，那么原来旋转前的宽也是旋转后的宽。如果旋转了90或者270，那么旋转后的宽是原来的高度。同样```getRotatedHeight```方法原理也是一样的。
 
@@ -206,7 +208,7 @@ private float calcScale(int viewWidth, int viewHeight, float angle) {
 private float getRotatedWidth(float angle) {
         return getRotatedWidth(angle, mImgWidth, mImgHeight);
     }
-
+    
 private float getRotatedWidth(float angle, float width, float height) {
         return angle % 180 == 0 ? width : height;
     }
@@ -253,7 +255,7 @@ private PointF mCenter = new PointF();
         mMatrix.setTranslate(mCenter.x - mImgWidth * 0.5f, mCenter.y - mImgHeight * 0.5f);
         mMatrix.postScale(mCropScale, mCropScale, mCenter.x, mCenter.y);
         mMatrix.postRotate(mImgAngle, mCenter.x, mCenter.y);
-
+        
     }
 ```
 ##### 4、图片显示区域的确定
@@ -297,7 +299,7 @@ private PointF mCenter = new PointF();
 	/**
      * 裁剪框的比例模式
      *
-     *
+     * 
      */
     public enum CropModeEnum {
         FIT_IMAGE(0), RATIO_2_3(1), RATIO_3_2(2), RATIO_4_3(3), RATIO_3_4(4), SQUARE(5), RATIO_16_9(6), RATIO_9_16(7), FREE(
@@ -506,7 +508,7 @@ private void drawCropFrame(Canvas canvas) {
         drawOverlay(canvas);
         drawFrame(canvas);
         drawGuidelines(canvas);
-        drawHandleLines(canvas);
+        drawHandleLines(canvas);    
    }
 ```
 接下来裁剪框会有覆盖层，透明层，边界线和指导线的绘制
@@ -524,7 +526,7 @@ private void drawCropFrame(Canvas canvas) {
         Path path = new Path();
         RectF overlayRectF = new RectF();
         overlayRectF.set(mImageRectF);
-
+		
         path.addRect(overlayRectF, Path.Direction.CW);
         path.addRect(mFrameRectF, Path.Direction.CCW);
         canvas.drawPath(path, mTranslucentPaint);
@@ -532,7 +534,7 @@ private void drawCropFrame(Canvas canvas) {
 ```
 第二部分拿到了图片的Rect区域，我们这里画半透明覆盖层只要调用路径来处理，这里我们调用了路径了两种不同的方向来添加，以使最终得到的路径是裁剪框之外。（当然这里也可以用路径合成方式的处理）
 
-```
+```		
 		path.addRect(mFrameRectF, Path.Direction.CW);
         path.addRect(overlayRectF, Path.Direction.CCW);
 ```
@@ -699,7 +701,7 @@ private void drawCropFrame(Canvas canvas) {
 ```
  @Override
     public boolean onTouchEvent(MotionEvent event) {
-
+        
       	switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 onActionDown(event);
@@ -707,7 +709,7 @@ private void drawCropFrame(Canvas canvas) {
             }
             case MotionEvent.ACTION_MOVE: {
                 onActionMove(event);
-
+            
                 if (mTouchArea != TouchAreaEnum.OUT_OF_BOUNDS) {
                     // 阻止父view拦截事件
                     getParent().requestDisallowInterceptTouchEvent(true);
@@ -740,7 +742,7 @@ private void onActionDown(MotionEvent event) {
         mLastY = event.getY();
         handleTouchArea(mLastX, mLastY);
     }
-
+    
     /**
      * <Strong>控制指导线或者边框线的显示</Strong>
      * <p></p>
@@ -808,17 +810,17 @@ private void onActionDown(MotionEvent event) {
 ```
 	if (isInLeftTopCorner(x, y)) {
             mTouchArea = TouchAreaEnum.LEFT_TOP;
-
+     
             return;
         }
-
+        
         //判断是否在左上角的边界内
      private boolean isInLeftTopCorner(float x, float y) {
      	float dx = x - mFrameRectF.left;
      	float dy = y - mFrameRectF.top;
      	return isInsideBound(dx, dy);
     }
-
+    
     private boolean isInsideBound(float dx, float dy) {
         float d = (float) (Math.pow(dx, 2) + Math.pow(dy, 2));
         return (Math.pow(mHandleSize + mTouchPadding, 2)) >= d;
@@ -980,7 +982,7 @@ private void moveHandleLeftTop(float diffX, float diffY) {
 			//这里只需要监测move事件的x或者y的变化，然后通过设定的比例计算出另外的x或者y的坐标，从而限定裁剪框的比例
 			float dx = diffX;
             float dy = diffX * getRatioY() / getRatioX();
-
+            
             mFrameRectF.left += dx;
             mFrameRectF.top += dy;
             // 控制缩放边界
@@ -1497,11 +1499,15 @@ public class MainActivity extends AppCompatActivity {
 
 ![](https://upload-images.jianshu.io/upload_images/3515789-0aa70fedd860fe33.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
----
 
+---
 ##### 源代码
 
 地址：https://github.com/minminaya/CropViewDemo
 
-----
 
+---
+
+参考
+
+[Android自定义 view之图片裁剪从设计到实现](https://blog.csdn.net/chunqiuwei/article/details/78858192/)
